@@ -3,7 +3,7 @@
 import React from "react";
 import { Button, Form } from "antd";
 import { FaLock, FaRegUser } from "react-icons/fa";
-import { FormLoginModel } from "@/models/Auth";
+import { FormLoginModel, UserModel } from "@/models/Auth";
 import { useLogin } from "@/hooks/useLogin";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -44,7 +44,7 @@ export default function LoginPage() {
 
   const onFinish = async (data: FormLoginModel) => {
     await login(data, {
-      onSuccess: async (response) => {
+      onSuccess: async (response: UserModel) => {
         await dispatch(setUser(response));
         await router.push("/");
       },

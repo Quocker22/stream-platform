@@ -3,7 +3,7 @@
 import React from "react";
 import { Button, Form } from "antd";
 import { FaLock, FaRegUser } from "react-icons/fa";
-import { FormRegisterModel } from "@/models/Auth";
+import { FormRegisterModel, UserModel } from "@/models/Auth";
 import { useRegister } from "@/hooks/useRegister";
 import { Input } from "@nextui-org/input";
 import { Select, SelectItem } from "@nextui-org/select";
@@ -54,7 +54,7 @@ export default function RegisterPage() {
 
   const onFinish = async (values: FormRegisterModel) => {
     await register(values, {
-      onSuccess: async (response) => {
+      onSuccess: async (response: UserModel) => {
         await dispatch(setUser(response));
         await router.push("/");
       },
@@ -81,13 +81,6 @@ export default function RegisterPage() {
               form={form}
               name="normal_login"
               className="space-y-4 md:space-y-6"
-              initialValues={{
-                dislayName: "Đinh Viết Quốc",
-                email: "test@gmail.com",
-                userName: "quocth879",
-                password: "zxcvzxcv",
-                role: "ADMIN",
-              }}
               onFinish={onFinish}
             >
               <CustomFormItem

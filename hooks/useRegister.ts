@@ -6,8 +6,6 @@ import { AxiosError } from "axios";
 
 const endpoint = async (userData: FormLoginModel): Promise<UserModel> => {
   const response = await axiosInstance.post(`/api/User`, userData);
-  console.log("response", response);
-
   return response.data as UserModel;
 };
 
