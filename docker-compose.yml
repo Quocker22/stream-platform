@@ -2,15 +2,17 @@ version: '3.3'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:18-alpine
     container_name: nextjs-app
     working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
-      - "3000:3000"
+      - "4200:4200"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
+    command: sh -c "npm install && npm run dev"
     depends_on:
       - mongo
 
