@@ -2,7 +2,7 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   thumbnail:
-    "/background.jpg",
+    "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/authentication/background.jpg",
   home: {
     label: "Home",
     href: "/",
