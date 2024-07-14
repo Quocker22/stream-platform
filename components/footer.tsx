@@ -3,7 +3,7 @@ import { Logo } from "./icons";
 export const Footer = () => {
   return (
     <footer className="bg-gray-50 dark:bg-gray-800">
-      <div className="p-4 py-6 mx-auto max-w-screen-xl md:p-8 lg:-10">
+      <div className="p-4 py-6 mx-auto md:p-8 lg:-10">
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
           <div className="col-span-2">
             <a

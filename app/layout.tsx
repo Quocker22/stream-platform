@@ -13,12 +13,30 @@ import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: siteConfig.home.name,
+    template: `%s - ${siteConfig.home.name}`,
   },
-  description: siteConfig.description,
+  description: siteConfig.home.description,
   icons: {
     icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: siteConfig.home.name,
+    description: siteConfig.home.description,
+    images: [
+      {
+        url: siteConfig.thumbnail,
+        width: 800,
+        height: 600,
+        alt: siteConfig.home.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.home.name,
+    description: siteConfig.home.description,
+    images: [siteConfig.thumbnail],
   },
 };
 

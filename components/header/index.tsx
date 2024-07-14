@@ -4,21 +4,24 @@ import { clsx } from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { LuHardDriveDownload } from "react-icons/lu";
+import { TbLivePhoto } from "react-icons/tb";
+import { IoCreateOutline } from "react-icons/io5";
 
-import { Socials } from "./socials";
+import {
+  MdOutlineDriveFolderUpload,
+  MdOutlineOndemandVideo,
+  MdOutlineVideoCall,
+} from "react-icons/md";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { Logo } from "../icons";
-import { ThemeSwitch } from "../theme-switch";
 import { useAuth } from "@/redux/useAuth";
 import { Avatar, Dropdown, MenuProps } from "antd";
 import { FaUser } from "react-icons/fa";
@@ -27,7 +30,6 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 const Header = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -51,7 +53,7 @@ const Header = (): JSX.Element => {
     await router.push("/login");
   };
 
-  const items: MenuProps["items"] = [
+  const itemsUser: MenuProps["items"] = [
     {
       key: "1",
       label: (
@@ -76,9 +78,63 @@ const Header = (): JSX.Element => {
     {
       key: "2",
       label: (
-        <a rel="noopener noreferrer" onClick={onLogout}>
+        <a
+          onClick={onLogout}
+          className="inline-flex items-center justify-center w-full py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+        >
+          <svg
+            aria-hidden="true"
+            className="mr-1 w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+          </svg>
           Đăng xuất
         </a>
+      ),
+    },
+  ];
+
+  const itemsCreateVideo: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <Link className="flex items-center" href="/profile">
+          <div className="pe-3">
+            <MdOutlineOndemandVideo className="text-primary" size={26} />
+          </div>
+          <div>Tải video lên</div>
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Link className="flex items-center" href="/profile">
+          <div className="pe-3">
+            <TbLivePhoto className="text-primary" size={26} />
+          </div>
+          <div>Tạo phòng học</div>
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <Link className="flex items-center" href="/profile">
+          <div className="pe-3">
+            <MdOutlineDriveFolderUpload className="text-primary" size={26} />
+          </div>
+          <div>Tạo khóa học</div>
+        </Link>
       ),
     },
   ];
@@ -92,7 +148,7 @@ const Header = (): JSX.Element => {
     >
       <div
         className={clsx(
-          "mx-auto flex w-full max-w-screen-xl flex-nowrap items-center justify-between gap-4 px-4 font-medium",
+          "mx-auto flex w-full max-w-screen-full flex-nowrap items-center justify-between gap-4 px-4 font-medium",
           headerHight ? "h-[var(--navbar-height)]" : "py-2.5"
         )}
         ref={headerRef}
@@ -140,16 +196,35 @@ const Header = (): JSX.Element => {
               </Button>
             </NavbarItem>
           ) : (
-            <NavbarItem className="">
-              <Dropdown menu={{ items }} placement="bottomLeft">
-                <Avatar
-                  className="cursor-pointer"
-                  src={currentUser?.avatarUrl}
-                  size={32}
-                  icon={<FaUser />}
-                />
-              </Dropdown>
-            </NavbarItem>
+            <>
+              <NavbarItem>
+                <Dropdown
+                  menu={{ items: itemsCreateVideo }}
+                  arrow
+                  placement="bottomLeft"
+                >
+                  <MdOutlineVideoCall
+                    className="cursor-pointer text-primary"
+                    size={32}
+                  />
+                </Dropdown>
+              </NavbarItem>
+
+              <NavbarItem className="">
+                <Dropdown
+                  arrow
+                  menu={{ items: itemsUser }}
+                  placement="bottomLeft"
+                >
+                  <Avatar
+                    className="cursor-pointer"
+                    src={currentUser?.avatarUrl}
+                    size={32}
+                    icon={<FaUser />}
+                  />
+                </Dropdown>
+              </NavbarItem>
+            </>
           )}
 
           {/* <NavbarItem className="">

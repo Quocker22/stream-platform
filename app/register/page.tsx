@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form } from "antd";
 import { FaLock, FaRegUser } from "react-icons/fa";
 import { FormRegisterModel, UserModel } from "@/models/Auth";
@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
+import { useAuth } from "@/redux/useAuth";
 type FormItemName = keyof FormRegisterModel;
 
 interface FormItemProps {
@@ -38,8 +39,8 @@ const CustomFormSelect: React.FC<FormItemProps> = ({ name, label, rules }) => (
   <Form.Item name={name} rules={rules}>
     <Select label={label} required>
       {[
-        { value: "ADMIN", label: "Admin" },
-        { value: "MEMBER", label: "Member" },
+        { value: "STUDENT", label: "Học viên" },
+        { value: "TEACHER", label: "Giáo viên" },
       ].map((animal) => (
         <SelectItem key={animal.value}>{animal.label}</SelectItem>
       ))}
@@ -123,8 +124,8 @@ export default function RegisterPage() {
 
               <CustomFormSelect
                 name="role"
-                label="Role"
-                rules={[{ required: true, message: "Vui lòng chọn role!" }]}
+                label="Vai trò"
+                rules={[{ required: true, message: "Vui lòng chọn vai trò!" }]}
               />
 
               <Form.Item>
@@ -134,7 +135,7 @@ export default function RegisterPage() {
                   htmlType="submit"
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Đăng nhập
+                  Đăng ký
                 </Button>
               </Form.Item>
 

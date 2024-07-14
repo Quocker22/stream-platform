@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <section className="bg-gray-50 py-4 antialiased dark:bg-gray-900 md:py-8">
-        <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <div className="mx-auto max-w-screen-2xl px-4 2xl:px-0">
           <div className="mb-4 flex items-center justify-between gap-4 md:mb-8">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
               Khóa học phổ biến
@@ -207,7 +207,7 @@ export default function Home() {
       </section>
 
       <section className="bg-gray-50 py-4 antialiased dark:bg-gray-900 md:py-6">
-        <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <div className="mx-auto max-w-screen-2xl px-4 2xl:px-0">
           {/* TOP BAR */}
           <div className="mb-1 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800 md:p-6">
             <div className="items-center justify-between pb-4 md:flex">

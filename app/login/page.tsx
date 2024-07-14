@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form } from "antd";
 import { FaLock, FaRegUser } from "react-icons/fa";
 import { FormLoginModel, UserModel } from "@/models/Auth";
@@ -11,6 +11,7 @@ import { setUser } from "@/redux/userSlice";
 import { Input } from "@nextui-org/input";
 import Link from "next/link";
 import { Logo } from "@/components/icons";
+import { useAuth } from "@/redux/useAuth";
 
 type FormItemName = keyof FormLoginModel;
 
