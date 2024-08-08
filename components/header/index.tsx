@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { LuHardDriveDownload } from "react-icons/lu";
 import { TbLivePhoto } from "react-icons/tb";
-import { IoCreateOutline } from "react-icons/io5";
-
 import {
   MdOutlineDriveFolderUpload,
   MdOutlineOndemandVideo,
@@ -21,15 +19,18 @@ import {
 } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
-import { Logo } from "../icons";
-import { useAuth } from "@/redux/useAuth";
 import { Avatar, Dropdown, MenuProps } from "antd";
 import { FaUser } from "react-icons/fa";
-import { useLogout } from "@/hooks/useLogout";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/userSlice";
 import { useRouter } from "next/navigation";
+
+import { Logo } from "../icons";
+
+import { setUser } from "@/redux/userSlice";
+import { useLogout } from "@/hooks/useLogout";
+import { useAuth } from "@/redux/useAuth";
+import { siteConfig } from "@/config/site";
 
 const Header = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -39,9 +40,11 @@ const Header = (): JSX.Element => {
 
   const headerRef = useRef<HTMLDivElement>(null);
   const [headerHight, setHeaderHight] = useState(0);
+
   useEffect(() => {
     const height =
       headerRef.current?.clientHeight ?? headerRef.current?.offsetHeight;
+
     height && setHeaderHight(height);
   }, []);
 
@@ -61,9 +64,9 @@ const Header = (): JSX.Element => {
           <div className="pe-3">
             <Avatar
               className="cursor-pointer"
+              icon={<FaUser />}
               size={32}
               src={currentUser?.avatarUrl}
-              icon={<FaUser />}
             />
           </div>
           <div>
@@ -78,9 +81,9 @@ const Header = (): JSX.Element => {
     {
       key: "2",
       label: (
-        <a
-          onClick={onLogout}
+        <Link
           className="inline-flex items-center justify-center w-full py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          onClick={onLogout}
         >
           <svg
             aria-hidden="true"
@@ -91,14 +94,14 @@ const Header = (): JSX.Element => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
             />
           </svg>
           Đăng xuất
-        </a>
+        </Link>
       ),
     },
   ];
@@ -107,7 +110,7 @@ const Header = (): JSX.Element => {
     {
       key: "1",
       label: (
-        <Link className="flex items-center" href="/profile">
+        <Link className="flex items-center" href={siteConfig.create.video}>
           <div className="pe-3">
             <MdOutlineOndemandVideo className="text-primary" size={26} />
           </div>
@@ -118,7 +121,7 @@ const Header = (): JSX.Element => {
     {
       key: "2",
       label: (
-        <Link className="flex items-center" href="/profile">
+        <Link className="flex items-center" href={siteConfig.create.meet}>
           <div className="pe-3">
             <TbLivePhoto className="text-primary" size={26} />
           </div>
@@ -129,7 +132,7 @@ const Header = (): JSX.Element => {
     {
       key: "3",
       label: (
-        <Link className="flex items-center" href="/profile">
+        <Link className="flex items-center" href={siteConfig.create.course}>
           <div className="pe-3">
             <MdOutlineDriveFolderUpload className="text-primary" size={26} />
           </div>
@@ -141,21 +144,23 @@ const Header = (): JSX.Element => {
 
   return (
     <Navbar
-      onMenuOpenChange={setIsMenuOpen}
-      classNames={{ wrapper: "px-0 flex-col h-fit shadow-md gap-0" }}
+      classNames={{
+        wrapper: "px-0 flex-col h-fit shadow-md gap-0 bg-slate-100",
+      }}
       height={`${headerHight}px`}
       maxWidth="full"
+      onMenuOpenChange={setIsMenuOpen}
     >
       <div
+        ref={headerRef}
         className={clsx(
           "mx-auto flex w-full max-w-screen-full flex-nowrap items-center justify-between gap-4 px-4 font-medium",
-          headerHight ? "h-[var(--navbar-height)]" : "py-2.5"
+          headerHight ? "h-[var(--navbar-height)]" : "py-2.5",
         )}
-        ref={headerRef}
       >
         <NavbarBrand className="!grow-0">
           <Link href="/">
-            <Logo width={32} height={32} />
+            <Logo height={32} width={32} />
           </Link>
         </NavbarBrand>
         <NavbarContent
@@ -191,7 +196,7 @@ const Header = (): JSX.Element => {
 
           {!currentUser?.id ? (
             <NavbarItem>
-              <Button as={Link} href="/login" variant="bordered" size="sm">
+              <Button as={Link} href="/login" size="sm" variant="bordered">
                 Đăng nhập
               </Button>
             </NavbarItem>
@@ -199,8 +204,8 @@ const Header = (): JSX.Element => {
             <>
               <NavbarItem>
                 <Dropdown
-                  menu={{ items: itemsCreateVideo }}
                   arrow
+                  menu={{ items: itemsCreateVideo }}
                   placement="bottomLeft"
                 >
                   <MdOutlineVideoCall
@@ -218,9 +223,9 @@ const Header = (): JSX.Element => {
                 >
                   <Avatar
                     className="cursor-pointer"
-                    src={currentUser?.avatarUrl}
-                    size={32}
                     icon={<FaUser />}
+                    size={32}
+                    src={currentUser?.avatarUrl}
                   />
                 </Dropdown>
               </NavbarItem>

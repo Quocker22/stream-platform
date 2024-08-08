@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import { message, notification } from "antd";
-import axiosInstance from "@/api/axiosClient";
+import { axiosInstance } from "@/api/axiosClient";
 import { FormLoginModel, UserModel } from "@/models/Auth";
 import { AxiosError } from "axios";
 

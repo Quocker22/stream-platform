@@ -1,6 +1,13 @@
+import { create } from "domain";
+
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
+  create: {
+    video: '/profile/video',
+    meet: '/profile/meet',
+    course: '/profile/course',
+  },
   thumbnail:
     "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/authentication/background.jpg",
   home: {

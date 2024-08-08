@@ -3,11 +3,11 @@
 import * as React from "react";
 import { NextUIProvider } from "@nextui-org/system";
 import { useRouter } from "next/navigation";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider as ReduxProvider, useDispatch } from "react-redux";
-import axiosInstance from "@/api/axiosClient";
+
+import { axiosInstance } from "@/api/axiosClient";
 import { setUser } from "@/redux/userSlice";
 import store from "@/redux/store";
 
@@ -21,8 +21,30 @@ interface ReduxProvidersProps {
   themeProps?: ThemeProviderProps;
 }
 
+const LoadingAnimation = () => (
+  <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+    <div className="relative w-24 h-24">
+      <div className="absolute top-0 left-0 w-full h-full">
+        {[...Array(4)].map((_, index) => (
+          <div
+            key={index}
+            className={`absolute w-12 h-12 bg-blue-500 rounded-full animate-pulse`}
+            style={{
+              top: index % 2 === 0 ? "0" : "50%",
+              left: index < 2 ? "0" : "50%",
+              animationDelay: `${index * 0.1}s`,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
 const ReduxProviders: React.FC<ReduxProvidersProps> = ({ children }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = React.useState(true);
+  const router = useRouter();
 
   React.useEffect(() => {
     const checkCookieAndCallAPI = async () => {
@@ -37,15 +59,21 @@ const ReduxProviders: React.FC<ReduxProvidersProps> = ({ children }) => {
         }
       } catch (error) {
         console.error("Error calling API:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     checkCookieAndCallAPI();
   }, [dispatch]);
 
+  if (isLoading) {
+    return <LoadingAnimation />;
+  }
+
   return (
     <QueryClientProvider client={new QueryClient()}>
-      <NextUIProvider navigate={useRouter().push}>{children}</NextUIProvider>
+      <NextUIProvider navigate={router.push}>{children}</NextUIProvider>
     </QueryClientProvider>
   );
 };

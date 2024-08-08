@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import { message, notification } from "antd";
-import axiosInstance from "@/api/axiosClient";
+import { axiosInstance } from "@/api/axiosClient";
 
 const endpoint = async (): Promise<boolean> => {
   await axiosInstance.post(`/api/User/logout`);

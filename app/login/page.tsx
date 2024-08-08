@@ -19,7 +19,7 @@ interface FormItemProps {
   name: FormItemName;
   label: string;
   rules: any[];
-  prefix: React.ReactNode;
+  prefix?: React.ReactNode;
   placeholder: string;
   type?: string;
 }
@@ -73,7 +73,7 @@ export default function LoginPage() {
               form={form}
               name="normal_login"
               className="space-y-4 md:space-y-6"
-              initialValues={{ userName: "quocth879", password: "zxcvbnm" }}
+              initialValues={{ userName: "user5", password: "password" }}
               onFinish={onFinish}
             >
               <CustomFormItem
@@ -81,7 +81,7 @@ export default function LoginPage() {
                 label="Tên đăng nhập"
                 rules={[
                   { required: true, message: "Vui lòng nhập Tên đăng nhập!" },
-                  { min: 6, message: "Tên đăng nhập phải dài trên 6 ký tự!" },
+                  { min: 3, message: "Tên đăng nhập phải dài trên 6 ký tự!" },
                 ]}
                 prefix={<FaRegUser className="site-form-item-icon" />}
                 placeholder="Tên đăng nhập"
