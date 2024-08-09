@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import "@/styles/draw.css";
-import "tldraw/tldraw.css";
 import {
   Chip,
   Dropdown,

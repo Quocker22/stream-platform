@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 services:
   web:
@@ -11,8 +11,8 @@ services:
       - ./:/app
       - /app/node_modules
     environment:
-      NODE_ENV: production
-    command: sh -c "npm install && npm run build && npm run start"
+      NODE_ENV: development
+    command: sh -c "npm install && npm run dev"
     networks:
       - app-network
 

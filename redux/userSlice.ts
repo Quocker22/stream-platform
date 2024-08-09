@@ -1,8 +1,9 @@
-import { UserModel } from '@/models/Auth';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { UserModel } from "@/models/Auth";
 
 interface UserState {
-  data?: UserModel; 
+  data?: UserModel;
   isAuthenticated: boolean;
 }
 
@@ -12,14 +13,14 @@ const initialState: UserState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<any>) => {
       state.data = action.payload;
       state.isAuthenticated = true;
     },
-    clearUser: state => {
+    clearUser: (state) => {
       state.data = undefined;
       state.isAuthenticated = false;
     },
