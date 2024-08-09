@@ -1,6 +1,10 @@
 export interface VideoModel {
   id: string;
-  user_id: string;
+  user: {
+    user_id: string;
+    user_name: string;
+    user_avatar: string;
+  };
   time: string;
   title: string;
   description: string;
@@ -16,5 +20,5 @@ export interface VideoModel {
 
 export interface VideoStatus {
   id: string;
-  status: string;
+  status: number;
 }

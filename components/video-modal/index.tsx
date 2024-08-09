@@ -5,20 +5,24 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
 import { Tab, Tabs } from "@nextui-org/tabs";
-import { FaCheckCircle, FaImage } from "react-icons/fa";
-import { MdInfo, MdLibraryMusic, MdVideoLibrary } from "react-icons/md";
+import { MdInfo, MdVideoLibrary } from "react-icons/md";
 import React, { useState } from "react";
+
 import { ChooseFile } from "../upload";
+
 import { FileDetails } from "./file-details";
 
-const VideoModal = (props: ButtonProps): JSX.Element => {
+interface Props extends ButtonProps {
+  onSave?: () => void;
+}
+
+const VideoModal = (props: Props): JSX.Element => {
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
-  const [activeTab, setActiveTab] = useState("photos");
+  const [activeTab, setActiveTab] = useState("upload-video");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const customTabsStyle = `
@@ -43,9 +47,9 @@ const VideoModal = (props: ButtonProps): JSX.Element => {
 
       <Modal
         isOpen={isOpen}
+        size="4xl"
         onClose={onClose}
         onOpenChange={onOpenChange}
-        size="4xl"
       >
         <ModalContent className="min-h-[500px]">
           <ModalHeader className="flex flex-col gap-1">
@@ -54,15 +58,15 @@ const VideoModal = (props: ButtonProps): JSX.Element => {
           <ModalBody>
             <div className="flex w-full flex-col">
               <Tabs
-                aria-label="Options"
-                color="primary"
-                variant="underlined"
                 fullWidth
-                selectedKey={activeTab}
+                aria-label="Options"
                 className="non-interactive-tabs"
+                color="primary"
+                selectedKey={activeTab}
+                variant="underlined"
               >
                 <Tab
-                  key="photos"
+                  key="upload-video"
                   title={
                     <div className="flex items-center space-x-2">
                       <MdVideoLibrary />
@@ -72,16 +76,15 @@ const VideoModal = (props: ButtonProps): JSX.Element => {
                 >
                   <ChooseFile
                     onChange={(file: File | null) => {
-                      console.log("file", file);
                       if (file) {
                         setUploadedFile(file);
-                        setActiveTab("music");
+                        setActiveTab("detail-video");
                       }
                     }}
                   />
                 </Tab>
                 <Tab
-                  key="music"
+                  key="detail-video"
                   title={
                     <div className="flex items-center space-x-2">
                       <MdInfo />
@@ -93,33 +96,18 @@ const VideoModal = (props: ButtonProps): JSX.Element => {
                     <FileDetails
                       file={uploadedFile}
                       onSave={() => {
-                        console.log('setActiveTab("videos")');
-                        setActiveTab("videos");
+                        onClose();
+                        props.onSave?.();
+                        setActiveTab("upload-video");
                       }}
                     />
                   ) : (
                     <div>Không có tệp nào được tải lên</div>
                   )}
                 </Tab>
-                <Tab
-                  key="videos"
-                  title={
-                    <div className="flex items-center space-x-2">
-                      <FaCheckCircle />
-                      <span>Kiểm tra</span>
-                    </div>
-                  }
-                >
-                  <div>Kiểm tra video...</div>
-                </Tab>
               </Tabs>
             </div>
           </ModalBody>
-          <ModalFooter>
-            <Button color="danger" variant="flat" onPress={onClose}>
-              Thoát
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

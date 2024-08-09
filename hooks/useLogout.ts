@@ -1,9 +1,11 @@
 import { useMutation } from "react-query";
-import { message, notification } from "antd";
+import { notification } from "antd";
+
 import { axiosInstance } from "@/api/axiosClient";
 
 const endpoint = async (): Promise<boolean> => {
   await axiosInstance.post(`/api/User/logout`);
+
   return true;
 };
 
@@ -13,7 +15,7 @@ const useLogout = () => {
       notification.open({
         message: "Đăng xuất thành công",
         type: "success",
-        showProgress: true,
+        description: "Đăng xuất thành công",
         pauseOnHover: false,
       });
     },

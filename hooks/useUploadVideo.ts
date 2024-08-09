@@ -1,16 +1,17 @@
 import { useMutation } from "react-query";
-import { message, notification } from "antd";
-import { axiosInstance } from "@/api/axiosClient";
-import { ResponseVideoModel, UploadVideoModel } from "@/models/Upload";
 import { AxiosError } from "axios";
 
+import { axiosInstance } from "@/api/axiosClient";
+import { ResponseVideoModel, UploadVideoModel } from "@/models/Upload";
+
 const endpoint = async (
-  userData: UploadVideoModel
+  userData: UploadVideoModel,
 ): Promise<ResponseVideoModel> => {
   const response = await axiosInstance.post(
     `/api/Video/getPresignedUrl`,
-    userData
+    userData,
   );
+
   return response.data as ResponseVideoModel;
 };
 
@@ -21,6 +22,7 @@ const useUploadVideo = () => {
     },
     onError: (e: AxiosError) => {
       const mesageError = e.response?.data as string;
+
       console.error(e);
     },
   });

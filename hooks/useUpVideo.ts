@@ -1,8 +1,8 @@
 import { useMutation } from "react-query";
-import { message, notification } from "antd";
+import { notification } from "antd";
+import { AxiosError } from "axios";
+
 import { axiosInstanceUpVideo } from "@/api/axiosClient";
-import axios, { AxiosError } from "axios";
-import { useState } from "react";
 
 const endpoint = async ({
   data,
@@ -17,7 +17,9 @@ const endpoint = async ({
     reader.onload = async () => {
       const arrayBuffer = reader.result as ArrayBuffer;
       const response = await axiosInstanceUpVideo.put(url, arrayBuffer);
+
       console.log(arrayBuffer);
+
       return response.data as string;
     };
 
@@ -48,6 +50,7 @@ const useUpVideo = () => {
       },
       onError: (e: AxiosError) => {
         const mesageError = e.response?.data as string;
+
         notification.open({
           message: "Tải lên thất bại",
           type: "error",
@@ -56,7 +59,7 @@ const useUpVideo = () => {
         });
         console.error(mesageError);
       },
-    }
+    },
   );
 };
 

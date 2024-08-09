@@ -1,14 +1,16 @@
 import * as React from "react";
+import { Image } from "antd";
 
 import { IconSvgProps } from "@/types";
-import { Image } from "antd";
 
 export const Logo: React.FC<IconSvgProps> = ({
   size = 36,
   width,
   height,
   ...props
-}) => <Image width={width} height={height} preview={false} src="/images/logo.png" />;
+}) => (
+  <Image height={height} preview={false} src="/images/logo.png" width={width} />
+);
 
 export const DiscordIcon: React.FC<IconSvgProps> = ({
   size = 24,
