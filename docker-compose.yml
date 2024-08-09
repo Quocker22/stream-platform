@@ -1,16 +1,21 @@
-version: '3.3'
+version: '3.8'
 
 services:
-  app:
+  web:
     image: node:18-alpine
-    container_name: nextjs-app
-    working_dir: /usr/src/app
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-      - /usr/src/app/.next
+    container_name: stream-platform
+    working_dir: /app
     ports:
       - "4200:4200"
+    volumes:
+      - ./:/app
+      - /app/node_modules
     environment:
-      - NODE_ENV=production
-    command: sh -c "npm install && npm run build && npm start"
+      NODE_ENV: production
+    command: sh -c "npm install && npm run build && npm run start"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
