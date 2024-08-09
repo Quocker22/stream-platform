@@ -1,7 +1,5 @@
-export type LimitOption = 10 | 25 | 50 | 100;
-
 export type PaginationState = {
-  pageSize: LimitOption;
+  pageSize: number;
   page: number;
   total_pages?: number;
   total_rows?: number;
@@ -9,7 +7,7 @@ export type PaginationState = {
 
 type SortState = {
   column?: string;
-  kind?: 'asc' | 'desc';
+  kind?: "asc" | "desc";
 };
 
 export type FilterState<T> = {
@@ -25,4 +23,7 @@ export type QueryState<T extends object> = PaginationState &
   FilterState<T> &
   SearchState;
 
-export type QueryStateURL<T extends object> = PaginationState & SortState & SearchState & T;
+export type QueryStateURL<T extends object> = PaginationState &
+  SortState &
+  SearchState &
+  T;

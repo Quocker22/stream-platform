@@ -33,12 +33,10 @@ const SkeletonLoader = () => (
 );
 
 export function Content() {
-  const { queryString, updateQueryState } = useQueryRequest();
+  const { updateQueryState, queryString } = useQueryRequest();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8;
-  const { data: videoData, isLoading } = useGetVideo(
-    `${currentPage}?pageSize=${pageSize}`,
-  );
+  const { data: videoData, isLoading } = useGetVideo(queryString);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

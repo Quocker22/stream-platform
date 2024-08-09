@@ -6,7 +6,7 @@ import { axiosInstance } from "@/api/axiosClient";
 import { VideoModel } from "@/models/Video";
 
 const endpoint = async (query?: string): Promise<VideoModel[]> => {
-  const response = await axiosInstance.get(`/api/Video/${query}`);
+  const response = await axiosInstance.get(`/api/Video?${query}`);
 
   return response.data as VideoModel[];
 };

@@ -1,8 +1,9 @@
-import { Pagination, Table } from 'antd';
-import { ColumnsType } from 'antd/lib/table';
-import { ExpandableConfig, TableRowSelection } from 'antd/lib/table/interface';
-import clsx from 'clsx';
-import type { TableProps as RcTableProps } from 'rc-table/lib/Table';
+import type { TableProps as RcTableProps } from "rc-table/lib/Table";
+
+import { Pagination, Table } from "antd";
+import { ColumnsType } from "antd/lib/table";
+import { ExpandableConfig, TableRowSelection } from "antd/lib/table/interface";
+import clsx from "clsx";
 
 interface IProps<TData extends object> {
   readonly columns: ColumnsType<TData>;
@@ -17,7 +18,7 @@ interface IProps<TData extends object> {
   readonly isLoading?: boolean;
   readonly limit?: number;
   readonly rowSelection?: TableRowSelection<TData>;
-  readonly scroll?: RcTableProps<TData>['scroll'] & {
+  readonly scroll?: RcTableProps<TData>["scroll"] & {
     scrollToFirstRowOnChange?: boolean;
   };
   readonly showSizeChanger?: boolean;
@@ -37,7 +38,7 @@ const TableAntd = <TData extends object>(props: IProps<TData>) => {
   return (
     <div className={clsx(props.className)}>
       <Table
-        className={clsx('mb-5', props.TableClassName)}
+        className={clsx("mb-5", props.TableClassName)}
         columns={props.columns}
         dataSource={props.data}
         expandable={props.expandable}
@@ -51,10 +52,10 @@ const TableAntd = <TData extends object>(props: IProps<TData>) => {
         <Pagination
           className={clsx(props.PaginationClassName)}
           current={props.currentPage || 1}
-          onChange={props.PaginationOnchange}
           pageSize={props.limit || 10}
           showSizeChanger={props.showSizeChanger}
           total={props.total}
+          onChange={props.PaginationOnchange}
         />
       )}
     </div>
