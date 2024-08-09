@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { RiTimer2Fill } from "react-icons/ri";
+import { Pagination } from "@nextui-org/react";
 
 import { ImageWithSkeleton } from "../image/imageWithSkeleton";
+import { useQueryRequest } from "../utils/useQueryRequest";
 
 import { useGetVideo } from "@/hooks/useGetVideo";
 
@@ -31,12 +33,22 @@ const SkeletonLoader = () => (
 );
 
 export function Content() {
-  const { data: video, isLoading } = useGetVideo();
+  const { queryString, updateQueryState } = useQueryRequest();
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 8;
+  const { data: videoData, isLoading } = useGetVideo(
+    `${currentPage}?pageSize=${pageSize}`,
+  );
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    updateQueryState({ page });
+  };
 
   if (!mounted) {
     return null;
@@ -47,8 +59,10 @@ export function Content() {
       <div className="max-w-screen-2xl px-4 mx-auto lg:px-6 mb-12">
         <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {isLoading
-            ? [...Array(8)].map((_, index) => <SkeletonLoader key={index} />)
-            : video?.map((i) => (
+            ? [...Array(pageSize)].map((_, index) => (
+                <SkeletonLoader key={index} />
+              ))
+            : videoData?.map((i) => (
                 <div
                   key={i.id}
                   className="relative overflow-hidden rounded-xl sm:my-5 !mx-auto duration-300 group cursor-pointer max-w-80 hover:!shadow-2xl hover:-translate-y-1 transition-all bg-white shadow-md"
@@ -83,6 +97,14 @@ export function Content() {
                   </div>
                 </div>
               ))}
+        </div>
+        <div className="flex justify-center mt-8">
+          <Pagination
+            showControls
+            page={currentPage}
+            total={Math.ceil((videoData?.length || 0) / pageSize)}
+            onChange={handlePageChange}
+          />
         </div>
       </div>
     </section>
