@@ -13,4 +13,4 @@ services:
       - "4200:4200"
     environment:
       - NODE_ENV=production
-    command: sh -c "npm ci && npm run build && npm start"
+    command: sh -c "npm install && npm run build && npm start"
