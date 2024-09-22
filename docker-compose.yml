@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  stream-platform:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=production
+    command: npm run start

@@ -1,0 +1,64 @@
+.ant-carousel .slick-prev,
+.slick-arrow,
+.ant-carousel .slick-next {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+    color: #4b4b4b;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 3px 6px #00000029;
+    text-align: center;
+    line-height: 32px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.slick-arrow.slick-prev::after,
+.slick-arrow.slick-next::after {
+    display: none;
+}
+
+/* Thêm mũi tên ở giữa */
+.slick-arrow.slick-next::after {
+    content: '\2192'; /* Mã Unicode cho mũi tên phải */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #999;
+    background: #fff;
+    width: 40px;
+    box-shadow: 0 3px 6px #00000029;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+
+/* Thêm mũi tên ở giữa */
+.slick-arrow.slick-prev::after {
+    content: '\2190'; /* Mã Unicode cho mũi tên phải */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #999;
+    background: #fff;
+    width: 40px;
+    box-shadow: 0 3px 6px #00000029;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}

@@ -1,0 +1,248 @@
+"use client";
+
+import { clsx } from "clsx";
+import { useEffect, useRef, useState } from "react";
+import { IoIosSend } from "react-icons/io";
+import { TbLivePhoto } from "react-icons/tb";
+import {
+  MdOutlineDriveFolderUpload,
+  MdOutlineOndemandVideo,
+  MdOutlineVideoCall,
+} from "react-icons/md";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+} from "@nextui-org/navbar";
+import { Button } from "@nextui-org/button";
+import { Link } from "@nextui-org/link";
+import { Avatar, Dropdown, MenuProps } from "antd";
+import { FaUser } from "react-icons/fa";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+
+import { JoinMeetModal } from "../join-meet-modal";
+
+import { setUser } from "@/redux/userSlice";
+import { useLogout } from "@/hooks/useLogout";
+import { useAuth } from "@/redux/useAuth";
+import { siteConfig } from "@/config/site";
+import { Logo } from "@/components/molecules/icons";
+
+const Header = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { currentUser } = useAuth();
+  const router = useRouter();
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [headerHight, setHeaderHight] = useState(0);
+
+  useEffect(() => {
+    const height =
+      headerRef.current?.clientHeight ?? headerRef.current?.offsetHeight;
+
+    height && setHeaderHight(height);
+  }, []);
+
+  const { mutate: logout } = useLogout();
+
+  const onLogout = async () => {
+    await logout();
+    await dispatch(setUser({}));
+    await router.push("/login");
+  };
+
+  const itemsUser: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <Link className="flex items-center" href="/profile">
+          <div className="pe-3">
+            <Avatar
+              className="cursor-pointer"
+              icon={<FaUser />}
+              size={32}
+              src={currentUser?.avatarUrl}
+            />
+          </div>
+          <div>
+            <ul>
+              <li>{currentUser?.dislayName}</li>
+              <li>{currentUser?.email}</li>
+            </ul>
+          </div>
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Link
+          className="inline-flex items-center justify-center w-full py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          onClick={onLogout}
+        >
+          <svg
+            aria-hidden="true"
+            className="mr-1 w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+            />
+          </svg>
+          Đăng xuất
+        </Link>
+      ),
+    },
+  ];
+
+  const itemsCreateVideo: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <Link className="flex items-center" href={siteConfig.create.video}>
+          <div className="pe-3">
+            <MdOutlineOndemandVideo className="text-primary" size={26} />
+          </div>
+          <div>Tải video lên</div>
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Link className="flex items-center" href={siteConfig.create.meet}>
+          <div className="pe-3">
+            <TbLivePhoto className="text-primary" size={26} />
+          </div>
+          <div>Tạo phòng học</div>
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <Link className="flex items-center" href={siteConfig.create.course}>
+          <div className="pe-3">
+            <MdOutlineDriveFolderUpload className="text-primary" size={26} />
+          </div>
+          <div>Tạo khóa học</div>
+        </Link>
+      ),
+    },
+  ];
+
+  return (
+    <Navbar
+      classNames={{
+        wrapper: "px-0 flex-col h-fit shadow-md gap-0 bg-slate-100",
+      }}
+      height={`${headerHight}px`}
+      maxWidth="full"
+      onMenuOpenChange={setIsMenuOpen}
+    >
+      <div
+        ref={headerRef}
+        className={clsx(
+          "mx-auto flex w-full max-w-screen-full flex-nowrap items-center justify-between gap-4 px-4 font-medium",
+          headerHight ? "h-[var(--navbar-height)]" : "py-2.5",
+        )}
+      >
+        <NavbarBrand className="!grow-0">
+          <Link href="/">
+            <Logo height={32} width={32} />
+          </Link>
+        </NavbarBrand>
+        <NavbarContent
+          className="hidden gap-4 sm:ml-4 sm:!flex sm:space-x-4"
+          justify="center"
+        >
+          <NavbarItem>
+            <Link href="/" size="sm">
+              Danh sách khóa học
+            </Link>
+          </NavbarItem>
+        </NavbarContent>
+        <NavbarContent justify="end">
+          {/* <ThemeSwitch /> */}
+          <NavbarItem className="hidden lg:!flex">
+            {/* <LuHardDriveDownload className="size-4" /> */}
+            <JoinMeetModal
+              size="sm"
+              startContent={<IoIosSend className="size-5" />}
+              variant="bordered"
+            >
+              Tham gia phòng
+            </JoinMeetModal>
+          </NavbarItem>
+          {!currentUser?.id && (
+            <NavbarItem className="">
+              <Button
+                as={Link}
+                href="/register"
+                size="sm"
+                startContent={<IoIosSend className="size-5" />}
+              >
+                Đăng ký ngay
+              </Button>
+            </NavbarItem>
+          )}
+
+          {!currentUser?.id ? (
+            <NavbarItem>
+              <Button as={Link} href="/login" size="sm" variant="bordered">
+                Đăng nhập
+              </Button>
+            </NavbarItem>
+          ) : (
+            <>
+              <NavbarItem>
+                <Dropdown
+                  arrow
+                  menu={{ items: itemsCreateVideo }}
+                  placement="bottomLeft"
+                >
+                  <div className="cursor-pointer text-primary">
+                    <MdOutlineVideoCall size={32} />
+                  </div>
+                </Dropdown>
+              </NavbarItem>
+
+              <NavbarItem className="">
+                <Dropdown
+                  arrow
+                  menu={{ items: itemsUser }}
+                  placement="bottomLeft"
+                >
+                  <Avatar
+                    className="cursor-pointer"
+                    icon={<FaUser />}
+                    size={32}
+                    src={currentUser?.avatarUrl}
+                  />
+                </Dropdown>
+              </NavbarItem>
+            </>
+          )}
+
+          <NavbarMenuToggle
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="sm:!hidden"
+          />
+        </NavbarContent>
+      </div>
+    </Navbar>
+  );
+};
+
+export { Header };
